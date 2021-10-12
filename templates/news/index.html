@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+<!--title-->
+{% block title %}{{page_title}}{% endblock title %}
+
+<!--content-->
+{% block content %}
+
+<!-- content -->
+<div
+  class="
+    flex flex-col
+    pt-20
+    bg-gray-200
+    mx-auto
+    min-h-screen
+    max-w-4xl
+    lg:max-w-5xl
+    xl:max-w-6xl
+  "
+>
+  <div class="grid grid-cols-1 gap-y-4">
+    <!-- Latest items -->
+    <div class="flex flex-col space-y-2">
+      <div class="font-2xl font-medium flex">
+        Latest Items
+        <span
+          class="
+            rounded-full
+            px-2
+            bg-yellow-500
+            border-2 border-solid border-white
+            font-black
+            text-white
+            ml-auto
+          "
+          id="storiesCount"
+        >
+          {{story.count}}
+        </span>
+      </div>
+      <div class="flex flex-col space-y-4">
+        <!-- filter -->
+        <div
+          class="
+            flex
+            place-items-center
+            justify-between
+            border border-solid border-gray-400
+            bg-white
+            p-4
+            rounded
+            shadow
+            col-sm-screen
+          "
+        >
+          <div class="flex space-x-1 lg:space-x-4">
+            <!--item-->
+            <div>
+              <div
+                class="
+                  font-bold
+                  text-gray-400
+                  rounded-full
+                  space-x-2
+                  flex
+                  place-items-center
+                  hover:bg-gray-300
+                "
+              >
+                <div>FILTER BY</div>
+              </div>
+            </div>
+          </div>
+          <div>{% include './commons/_filters.html' %}</div>
+        </div>
+
+        <!-- HackerNews stories -->
+        <div class="flex flex-col space-y-4 pb-8" id="hackerNewsStories">
+          <!--post-->
+          <div id="stories">{% include './stories.html' %}</div>
+          <form class="ml-auto">
+            {% csrf_token %}
+            <a
+              id="lazyLoadLink"
+              href="javascript:void(0);"
+              data-page="2"
+              class="
+                bg-yellow-500
+                hover:bg-yellow-400
+                text-white
+                font-bold
+                py-2
+                px-4
+                border-b-4 border-yellow-700
+                hover:border-yellow-500
+                rounded
+              "
+            >
+              Load More Stories
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

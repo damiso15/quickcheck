@@ -1,0 +1,77 @@
+<!-- navbar -->
+<div
+  class="
+    bg-white
+    w-full
+    fixed
+    py-2
+    px-2
+    flex
+    place-items-center
+    justify-evenly
+    space-x-2
+    shadow
+    z-10
+  "
+>
+  <!-- logo -->
+  <div class="flex text-3xl space-x-2 place-items-center">
+    <a href="{% url 'news:index' %}">
+      <span class="bg-white text-4xl" style="color: #ff5700">
+        <i class="fab fa-hacker-news-square"></i>
+      </span>
+    </a>
+    <p class="font-medium hidden lg:block">
+      <a href="{% url 'news:index' %}">Hackernews</a>
+    </p>
+  </div>
+
+  <!-- search bar -->
+  <form
+    id="searchForm"
+    class="flex place-items-center bg-gray-100 rounded w-60 lg:w-80"
+  >
+    {% csrf_token %}
+    <div class="pl-4 pr-2">
+      <i class="fas fa-search"></i>
+    </div>
+    <input
+      type="text"
+      placeholder="Search for stories using title, author, text, and type of item"
+      class="bg-gray-100 py-2 rounded outline-none w-full"
+      id="storySearchBox"
+    />
+  </form>
+
+  <div class="flex">
+    <!-- coins -->
+    <a
+      class="
+        flex
+        place-items-center
+        rounded-full
+        border border-solid border-yellow-300
+        md:px-4 md:py-2
+        space-x-2
+        bg-yellow-200
+        hover:bg-yellow-500
+      "
+      href="https://github.com/damiso15"
+    >
+      <span
+        class="
+          rounded-full
+          px-2
+          bg-yellow-500
+          border-2 border-solid border-white
+          font-black
+          text-white
+          md:font-size-1
+        "
+      >
+        &copy;
+      </span>
+      <span>SONAIKE Oluwadamilola.</span>
+    </a>
+  </div>
+</div>

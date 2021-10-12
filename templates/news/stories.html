@@ -1,0 +1,89 @@
+{% load custom_tags %}
+<!---->
+{% for story in stories %}
+<div
+  class="border border-solid border-gray-400 bg-white rounded shadow flex mb-2"
+>
+  <div
+    class="
+      flex flex-col
+      place-items-center
+      text-2xl
+      p-2
+      bg-gray-100
+      justify-center
+    "
+  >
+    <div>
+      <span class="text-yellow-500">
+        <i class="fas fa-chevron-up"></i>
+      </span>
+    </div>
+    <div class="text-yellow-500 font-bold">{{story.score}}</div>
+  </div>
+  <div class="flex flex-col pl-4">
+    <div class="flex place-items-center space-x-2 py-2">
+      <!--<img src="#" alt="" class="w-8 rounded-full py-2" />-->
+      <div class="font-bold">{{story.types|capfirst}}</div>
+      {% if story.types != 'comment' %}
+      <p class="font-bold text-gray-600">
+        Posted by {{story.author}} {{story.time|timesince}} ago
+      </p>
+      {% else %}
+      <p class="font-normal text-gray-400 text-sm">
+        by {{story.author}}, made {{story.time|timesince}} ago
+      </p>
+      {% endif %}
+    </div>
+
+    <div>
+      {% if story.types == 'comment' %}
+      <!---->
+      {% if comment.text %}
+      <p class="text-sm font-normal">{{comment.text|safe|truncatewords:22}}</p>
+      {% else %}
+      <p class="text-sm font-normal">This comment has no content</p>
+      {% endif %}
+      <!---->
+      {% else %}
+      <a class="text-2xl font-bold" href="{{story.get_absolute_url}}">{{story.title}}</a>
+      {% endif %}
+    </div>
+
+    <div class="flex text-gray-500 space-x-4">
+      <div
+        class="text-lg flex place-items-center space-x-2 p-2 hover:bg-gray-200"
+      >
+        {% if story.types != 'comment' %}
+        <i class="fas fa-comment"></i>
+
+        <div>{{story.descendants}} comment{{story.descendants|pluralize}}</div>
+        {% else %}
+        <i class="fas fa-child"></i>
+        <p class="text-sm">
+          <a href="{{ comment.parent_id|url }}">
+            In {{ comment.parent_id|title|safe }}
+          </a>
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% empty %}
+<div
+  class="
+    border border-solid border-gray-400
+    bg-white
+    rounded
+    shadow
+    flex
+    mb-2
+    p-2
+    text-center
+  "
+  id="latestStoryEmpty"
+>
+  <p class="text-2xl font-bold text-center">No latest story yet.</p>
+</div>
+{% endfor %}
