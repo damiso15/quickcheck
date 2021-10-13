@@ -20,7 +20,7 @@ class Story(models.Model):
     title = models.TextField('Story Title', null=False)
     url = models.URLField('Story URL', null=True)
     author = models.CharField('Story Author', max_length=50, null=True)
-    created_by = models.ForeignKey(get_user_model(), related_name='stories', on_delete=models.CASCADE, null=False)
+    created_by = models.ForeignKey(get_user_model(), related_name='stories', on_delete=models.CASCADE, null=True)
     slug = models.SlugField(max_length=500, null=True)
     time = models.DateTimeField('Date Story was created', null=True)
     descendants = models.IntegerField('The total comments counted', null=True)
