@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -154,6 +156,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_TIMEZONE = "Africa/Lagos"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+# try:
+#     CELERY_BROKER_URL = os.environ['REDIS_URL']
+# except KeyError:
+#     CELERY_BROKER_URL = 'redis://localhost'
 
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+# CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'test': {
+        'task': ('flights.news.get_and_store_comments', 'flights.news.store_stories', 'flights.news.get_stories'),
+        'schedule': crontab(minute=5, hour=0),
+    }
+}
 
 AUTH_USER_MODEL = 'accounts.User'
