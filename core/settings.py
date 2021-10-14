@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_swagger',
     'drf_yasg',
+    'django_celery_results',
+    'django_celery_beat',
 
     # installed app
     'news',
@@ -153,9 +155,36 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery Configuration Options
-CELERY_TIMEZONE = "Africa/Lagos"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+# CELERY_TIMEZONE = "Africa/Lagos"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+# # CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+# CELERY_BROKER_URL
+
+
+# CELERY STUFF
+try:
+    CELERY_BROKER_URL = os.environ['REDIS_URL']
+except KeyError:
+    CELERY_BROKER_URL = 'redis://localhost'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_TASK_SERIALIZER = 'json'
+
+
+# celery setting.
+# CELERY_CACHE_BACKEND = 'default'
+
+# django setting.
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }
+
 # try:
 #     CELERY_BROKER_URL = os.environ['REDIS_URL']
 # except KeyError:
@@ -169,8 +198,8 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'test': {
-        'task': ('flights.news.get_and_store_comments', 'flights.news.store_stories', 'flights.news.get_stories'),
-        'schedule': crontab(minute=5, hour=0),
+        'task': ('news.tasks.store_stories'),
+        'schedule': 15.0,
     }
 }
 

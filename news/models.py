@@ -7,7 +7,7 @@ import uuid
 
 
 class Type(models.Model):
-    name = models.CharField(max_length=15, help_text='Enter a Type (e.g. Story, Comments, etc)', null=False)
+    name = models.CharField(max_length=15, help_text='Enter a Type (e.g. Story, Comments, etc)', null=False, default='No type')
 
     def __str__(self):
         return self.name
