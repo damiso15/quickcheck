@@ -47,14 +47,15 @@ class Story(models.Model):
 
 class Comment(models.Model):
     unique_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    comment_id = models.IntegerField('Comment ID', null=True, unique=True)
+    comment_id = models.IntegerField('Comment ID', null=True)
     # types = models.ManyToManyField(Type, help_text='Pick a Type or Create a new Type')
     types = models.CharField('Type of Item', max_length=50, null=True,
                              help_text='Enter a Type (e.g. Story, Comments, etc)')
     text = models.TextField('The Comment', null=False)
     author = models.CharField('Comment Author', max_length=50, null=True)
     time = models.DateTimeField('Date Comment was created', null=True)
-    parent_id = models.ForeignKey(Story, on_delete=models.CASCADE, null=True)
+    # parent_id = models.ForeignKey(Story, on_delete=models.CASCADE, null=True)
+    parent_id = models.IntegerField('Parent Id', null=True)
 
     class Meta:
         verbose_name = 'Comment'
