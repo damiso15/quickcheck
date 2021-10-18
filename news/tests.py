@@ -50,7 +50,8 @@ def get_item(id):
 
 elements = requests.get(f'{hacker_news_url}/newstories.json')
 item = elements.json()
-latest_item_id = item[:10]
+# latest_item_id = item[:10]
+latest_item_id = item[-10:]
 for i in reversed(latest_item_id):
     respond = get_item(i)
     print(respond)

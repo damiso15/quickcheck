@@ -167,11 +167,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 try:
     CELERY_BROKER_URL = os.environ['REDIS_URL']
 except KeyError:
-    CELERY_BROKER_URL = 'redis://localhost'
+    CELERY_BROKER_URL = 'redis://localhost:6379'
 
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = "Africa/Lagos"
+
 
 
 # celery setting.
@@ -197,9 +199,10 @@ CELERY_TASK_SERIALIZER = 'json'
 # CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'test': {
-        'task': ('news.tasks.store_stories'),
-        'schedule': 15.0,
+    'run_store_stories': {
+        'task': 'news.tasks.store_stories',
+        'schedule':  crontab(minute='*/5'),
+        # 'schedule':  crontab(),
     }
 }
 

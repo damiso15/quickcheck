@@ -3,7 +3,7 @@ from . import models
 
 # Register your models here.
 
-admin.site.register(models.Type)
+# admin.site.register(models.Type)
 
 
 @admin.register(models.Story)

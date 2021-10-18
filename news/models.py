@@ -6,17 +6,20 @@ import uuid
 # Create your models here.
 
 
-class Type(models.Model):
-    name = models.CharField(max_length=15, help_text='Enter a Type (e.g. Story, Comments, etc)', null=False, default='No type')
-
-    def __str__(self):
-        return self.name
+# class Type(models.Model):
+#     name = models.CharField(max_length=15,
+#     help_text='Enter a Type (e.g. Story, Comments, etc)', null=False, default='No type')
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Story(models.Model):
     unique_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     story_id = models.IntegerField('Story ID', null=True)
-    types = models.ManyToManyField(Type, help_text='Pick a Type or Create a new Type')
+    # types = models.ManyToManyField(Type, help_text='Pick a Type or Create a new Type')
+    types = models.CharField('Type of Item', max_length=50, null=True,
+                             help_text='Enter a Type (e.g. Story, Comments, etc)')
     title = models.TextField('Story Title', null=False)
     url = models.URLField('Story URL', null=True)
     author = models.CharField('Story Author', max_length=50, null=True)
@@ -45,7 +48,9 @@ class Story(models.Model):
 class Comment(models.Model):
     unique_id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     comment_id = models.IntegerField('Comment ID', null=True, unique=True)
-    types = models.ManyToManyField(Type, help_text='Pick a Type or Create a new Type')
+    # types = models.ManyToManyField(Type, help_text='Pick a Type or Create a new Type')
+    types = models.CharField('Type of Item', max_length=50, null=True,
+                             help_text='Enter a Type (e.g. Story, Comments, etc)')
     text = models.TextField('The Comment', null=False)
     author = models.CharField('Comment Author', max_length=50, null=True)
     time = models.DateTimeField('Date Comment was created', null=True)
