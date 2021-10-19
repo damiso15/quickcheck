@@ -34,9 +34,9 @@ class Story(models.Model):
         verbose_name = 'Story'
         verbose_name_plural = 'Stories'
 
-    def display_types(self):
-        return ', '.join([types.name for types in self.types.all()[:3]])
-    display_types.short_description = 'Types'
+    # def display_types(self):
+    #     return ', '.join([types.name for types in self.types.all()[:3]])
+    # display_types.short_description = 'Types'
 
     def get_absolute_url(self):
         return reverse('story-detail', args=[str(self.unique_id), self.slug])
@@ -56,14 +56,15 @@ class Comment(models.Model):
     time = models.DateTimeField('Date Comment was created', null=True)
     # parent_id = models.ForeignKey(Story, on_delete=models.CASCADE, null=True)
     parent_id = models.IntegerField('Parent Id', null=True)
+    title = models.ForeignKey(Story, on_delete=models.CASCADE, related_name="comments", null=True)
 
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
 
-    def display_types(self):
-        return ', '.join([types.name for types in self.types.all()[:3]])
-    display_types.short_description = 'Type'
+    # def display_types(self):
+    #     return ', '.join([types.name for types in self.types.all()[:3]])
+    # display_types.short_description = 'Type'
 
     def __str__(self):
-        return self.parent_id.title
+        return self.title.title

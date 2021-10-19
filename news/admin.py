@@ -8,7 +8,7 @@ from . import models
 
 @admin.register(models.Story)
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ['story_id', 'display_types', 'title', 'url', 'author']
+    list_display = ['story_id', 'types', 'title', 'url', 'author']
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ['title', 'types', 'author', 'local_author', 'story_id']
     list_per_page = 20
@@ -17,9 +17,10 @@ class StoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['comment_id', 'title', 'author']
+    list_display = ['comment_id', 'types', 'title', 'author']
+    # list_display = ['comment_id', 'types', 'text', 'author']
     list_per_page = 20
 
     def title(self, obj):
-        return obj.story.title
+        return obj.title.title
     title.short_description = 'title'

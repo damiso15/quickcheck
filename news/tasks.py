@@ -23,11 +23,13 @@ def get_and_store_comments(story_id, api_id):
     single_story = get_item(story_id)
     print(single_story, '>>>>>')
     # story = Story.objects.get(unique_id=api_id, story_id=story_id)
+    story_title = Story.objects.get(unique_id=api_id, story_id=story_id)
     print(api_id, '****')
     for element in single_story.get('kids', []):
         comments = get_item(element)
         # comment, _ = Comment.objects.get_or_create(comment_id=element, unique_id=story.unique_id)
         comment, _ = Comment.objects.get_or_create(comment_id=element)
+        comment.title = story_title
         comment.types = comments.get('type', '')
         comment.text = comments.get('text', '')
         comment.author = comments.get('by', '')
